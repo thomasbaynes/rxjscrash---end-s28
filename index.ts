@@ -179,3 +179,84 @@ import { Observable } from 'rxjs';
 // ajax$.subscribe(data => console.log('Sub 3: ', data.response.first_name));
 
 // Session 32 / Hot Observable
+// const helloButton = document.querySelector('button#hello');
+
+// const helloClick$ = new Observable<MouseEvent>(subscriber => {
+//   helloButton.addEventListener('click', event => {
+//     subscriber.next(event);
+//   });
+// });
+
+// helloClick$.subscribe(event =>
+//   console.log('Sub 1: ', event.type, event.x, event.y)
+// );
+
+// setTimeout(() => {
+//   console.log('Sub 2 starts');
+//   helloClick$.subscribe(event =>
+//     console.log('Sub 2: ', event.type, event.x, event.y)
+//   );
+// }, 5000);
+
+// Session 5/ Section 36
+//OF function
+
+import { of } from 'rxjs';
+// Same as using our own of. BUT EASY.
+// of('Alice', 'Ben', 'Charlie').subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('completed')
+// });
+
+// ourOwnOf('Alice', 'Ben', 'Charlie').subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('completed')
+// });
+
+// // const names$ = new Observable<string>(subscriber => {
+// //   subscriber.next('Alice');
+// //   subscriber.next('Ben');
+// //   subscriber.next('Charlie');
+// //   subscriber.complete();
+// // });
+
+// // names$.subscribe({
+// //   next: value => console.log(value),
+// //   complete: () => console.log('completed')
+// // });
+
+// function ourOwnOf(...args: string[]): Observable<string> {
+//   return new Observable<string>(subscriber => {
+//     for (let i = 0; i < args.length; i++) {
+//       subscriber.next(args[i]);
+//     }
+//     subscriber.complete();
+//   });
+// }
+
+// Section 5/ Session 37
+
+import { from } from 'rxjs';
+
+// from(['Alice', 'Ben', 'Charlie']).subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('Complete')
+// });
+
+// const somePromise = new Promise((resolve, reject) => {
+//   // resolve('Resolved!');
+//   reject('Rejected');
+// });
+
+// const observableFromPromise$ = from(somePromise);
+
+// observableFromPromise$.subscribe({
+//   next: value => console.log(value),
+//   error: err => console.log('Error', err),
+//   complete: () => console.log('Completed')
+// });
+
+
+//Section 5/ Session 38
+//fromEvent
+
