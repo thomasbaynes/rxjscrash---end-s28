@@ -346,33 +346,58 @@ import { fromEvent } from 'rxjs';
 //Session 5 // Session 41
 //forkJoin
 
+// import { ajax, AjaxResponse } from 'rxjs/ajax';
+
+// import { forkJoin } from 'rxjs';
+
+// const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
+
+// const randomNation$ = ajax(
+//   'https://random-data-api.com/api/nation/random_nation'
+// );
+
+// const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
+
+// randomName$.subscribe(ajaxResponse =>
+//   console.log(ajaxResponse.response.first_name)
+// );
+
+// randomNation$.subscribe(ajaxResponse =>
+//   console.log(ajaxResponse.response.capital)
+// );
+
+// randomFood$.subscribe(ajaxResponse => console.log(ajaxResponse.response.dish));
+
+// forkJoin([randomName$, randomNation$, randomFood$]).subscribe(
+//   ([nameAjax, nationAjax, foodAjax]) =>
+//     console.log(
+//       `${nameAjax.response.first_name} is from ${
+//         nationAjax.response.capital
+//       } and likes to eat ${foodAjax.response.dish}`
+//     )
+// );
+
+//Section 5/ Session 42/
+//forkJoin Error Scenario
+
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 
 import { forkJoin } from 'rxjs';
 
-const randomName$ = ajax('https://random-data-api.com/api/name/random_name');
+const a$ = new Observable(subscriber => {
+  setTimeout(() => {
+    subscriber.next('A');
+    subscriber.complete();
+  }, 3000);
+});
 
-const randomNation$ = ajax(
-  'https://random-data-api.com/api/nation/random_nation'
-);
+const b$ = new Observable(subscriber => {
+  setTimeout(() => {
+    subscriber.error('Failure!');
+  }, 5000);
+});
 
-const randomFood$ = ajax('https://random-data-api.com/api/food/random_food');
-
-randomName$.subscribe(ajaxResponse =>
-  console.log(ajaxResponse.response.first_name)
-);
-
-randomNation$.subscribe(ajaxResponse =>
-  console.log(ajaxResponse.response.capital)
-);
-
-randomFood$.subscribe(ajaxResponse => console.log(ajaxResponse.response.dish));
-
-forkJoin([randomName$, randomNation$, randomFood$]).subscribe(
-  ([nameAjax, nationAjax, foodAjax]) =>
-    console.log(
-      `${nameAjax.response.first_name} is from ${
-        nationAjax.response.capital
-      } and likes to eat ${foodAjax.response.dish}`
-    )
-);
+forkJoin([a$, b$]).subscribe({
+  next: value => console.log(value),
+  error: err => console.log('Error:', err)
+});
