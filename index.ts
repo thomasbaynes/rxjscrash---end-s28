@@ -1,4 +1,4 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 // const observable$ = new Observable<string>(subscriber => {
 //   console.log('Observable Executed');
@@ -256,7 +256,93 @@ import { from } from 'rxjs';
 //   complete: () => console.log('Completed')
 // });
 
-
 //Section 5/ Session 38
 //fromEvent
+
+import { fromEvent } from 'rxjs';
+
+// const triggerButton = document.querySelector('button#trigger');
+
+// const subscription = fromEvent<MouseEvent>(triggerButton, 'click').subscribe(
+//   event => console.log(event.type, event.x, event.y)
+// );
+
+// const triggerClick$ = new Observable<MouseEvent>(subscriber => {
+//   const clickHandlerFn = event => {
+//     console.log('Event callback exected');
+//     subscriber.next(event);
+//   };
+//   triggerButton.addEventListener('click', clickHandlerFn);
+
+//   return () => {
+//     triggerButton.removeEventListener('click', clickHandlerFn);
+//   };
+// });
+
+// const subscription = triggerClick$.subscribe(event =>
+//   console.log(event.type, event.x, event.y)
+// );
+
+// setTimeout(() => {
+//   console.log('Unsubscribe');
+//   subscription.unsubscribe();
+// }, 5000);
+
+//Section 5/ Session 39
+//Timer creation function
+
+// import { timer } from 'rxjs';
+
+// console.log('App Started');
+
+// const timer$ = new Observable<number>(subscriber => {
+//   const timeoutId = setTimeout(() => {
+//     console.log('timeout');
+//     subscriber.next(0);
+//     subscriber.complete();
+//   }, 2000);
+
+//   return () => clearTimeout(timeoutId);
+// });
+
+// const subscription = timer$.subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('Completed!')
+// });
+
+// setTimeout(() => {
+//   subscription.unsubscribe();
+//   console.log('unsub');
+// }, 1000);
+
+//Session 5/ Session 40
+//interval
+
+// import { timer, interval } from 'rxjs';
+
+// console.log('App started');
+
+// const interval$ = new Observable<number>(subscriber => {
+//   let counter = 0;
+
+//   const intervalId = setInterval(() => {
+//     console.log('Timeout!');
+//     subscriber.next(counter++);
+//   }, 1000);
+
+//   return () => clearTimeout(intervalId);
+// });
+
+// const subscription = interval(1000).subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('Completed')
+// });
+
+// setTimeout(() => {
+//   subscription.unsubscribe();
+//   console.log('Unsubscribe');
+// }, 5000);
+
+
+//Session 5 // Session 41
 
