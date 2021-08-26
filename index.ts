@@ -382,22 +382,40 @@ import { fromEvent } from 'rxjs';
 
 import { ajax, AjaxResponse } from 'rxjs/ajax';
 
-import { forkJoin } from 'rxjs';
+// import { forkJoin } from 'rxjs';
 
-const a$ = new Observable(subscriber => {
-  setTimeout(() => {
-    subscriber.next('A');
-    subscriber.complete();
-  }, 3000);
-});
+// const a$ = new Observable(subscriber => {
+//   setTimeout(() => {
+//     subscriber.next('A');
+//     subscriber.complete();
+//   }, 5000);
 
-const b$ = new Observable(subscriber => {
-  setTimeout(() => {
-    subscriber.error('Failure!');
-  }, 5000);
-});
+//   return () => {
+//     console.log('a teardown');
+//   };
+// });
 
-forkJoin([a$, b$]).subscribe({
-  next: value => console.log(value),
-  error: err => console.log('Error:', err)
-});
+// const b$ = new Observable(subscriber => {
+//   setTimeout(() => {
+//     subscriber.error('Failure!');
+//   }, 3000);
+
+//   return () => {
+//     console.log('b teardown');
+//   };
+// });
+
+// forkJoin([a$, b$]).subscribe({
+//   next: value => console.log(value),
+//   error: err => console.log('Error:', err)
+// });
+
+
+//Section 5 // Session 43/
+//combineLatest
+
+const temperatureInput = document.getElementById('temperature-input');
+const conversionDropdown = document.getElementById('conversion-dropdown');
+const resultText = document.getElementById('result-text');
+
+const temperatureInputEvent$ = fromEvent
