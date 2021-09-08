@@ -551,15 +551,100 @@ import { catchError, concatMap, debounceTime, tap } from 'rxjs/operators';
 // });
 
 //Section 6
-//Session 52
+//Session 53
 //Flattening Operators - Static example
 
-const source$ = new Observable(subscriber => {
-  setTimeout(() => subscriber.next('A'), 2000);
-  setTimeout(() => subscriber.next('B'), 5000);
-});
+// const source$ = new Observable(subscriber => {
+//   setTimeout(() => subscriber.next('A'), 2000);
+//   setTimeout(() => subscriber.next('B'), 5000);
+// });
 
-console.log('App has started');
-source$.pipe(
-  concatMap(value => of(1, 2))
-).subscribe(value => console.log(value));
+// console.log('App has started');
+// source$.pipe(
+//   concatMap(value => of(1, 2))
+// ).subscribe(value => console.log(value));
+
+//Section 6
+///Session 54
+//Flattening Operators - Dynamic HTTP Request
+
+// const endpointInput: HTMLInputElement = document.querySelector(
+//   'input#endpoint'
+// );
+// const fetchButton = document.querySelector('button#fetch');
+
+// fromEvent(fetchButton, 'click')
+//   .pipe(
+//     map(() => endpointInput.value),
+//     concatMap(value =>
+//       ajax(`https://random-data-api.com/api/${value}/random_${value}`)
+//     )
+//   )
+//   .subscribe(value => console.log(value));
+
+//Session 55
+//Flattening Operators - Error Handling - First Solution
+
+// const endpointInput: HTMLInputElement = document.querySelector(
+//   'input#endpoint'
+// );
+// const fetchButton = document.querySelector('button#fetch');
+
+// fromEvent(fetchButton, 'click')
+//   .pipe(
+//     map(() => endpointInput.value),
+//     concatMap(value =>
+//       ajax(`https://random-data-api.com/api/${value}/random_${value}`)
+//     ),
+//     catchError(() => EMPTY)
+//   ).subscribe({
+//     next: value => console.log(value),
+//     error: err => console.log('Error: ', err),
+//     complete: () => console.log('Completed')
+//   });
+
+//Session 56
+//Flattening Operators - Error Handling - Second Solution
+
+// const endpointInput: HTMLInputElement = document.querySelector(
+//   'input#endpoint'
+// );
+// const fetchButton = document.querySelector('button#fetch');
+
+// fromEvent(fetchButton, 'click')
+//   .pipe(
+//     map(() => endpointInput.value),
+//     concatMap(value =>
+//       ajax(`https://random-data-api.com/api/${value}/random_${value}`).pipe(
+//         catchError(error => of(`Could not fetch data:  ${error}`))
+//       )
+//     )
+//   )
+//   .subscribe({
+//     next: value => console.log(value),
+//     error: err => console.log('Error: ', err),
+//     complete: () => console.log('Completed')
+//   });
+
+//Session 57
+//Flattening Operators - Concurrency - concatMap
+
+// const endpointInput: HTMLInputElement = document.querySelector(
+//   'input#endpoint'
+// );
+// const fetchButton = document.querySelector('button#fetch');
+
+// fromEvent(fetchButton, 'click')
+//   .pipe(
+//     map(() => endpointInput.value),
+//     concatMap(value =>
+//       ajax(`https://random-data-api.com/api/${value}/random_${value}`).pipe(
+//         catchError(error => of(`Could not fetch data:  ${error}`))
+//       )
+//     )
+//   )
+//   .subscribe({
+//     next: value => console.log(value),
+//     error: err => console.log('Error: ', err),
+//     complete: () => console.log('Completed')
+//   });
