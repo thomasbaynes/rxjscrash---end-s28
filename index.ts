@@ -1,4 +1,4 @@
-import { filter, Observable, Subscriber } from 'rxjs';
+import { map, filter, Observable, Subscriber, of, EMPTY } from 'rxjs';
 
 // const observable$ = new Observable<string>(subscriber => {
 //   console.log('Observable Executed');
@@ -201,7 +201,7 @@ import { filter, Observable, Subscriber } from 'rxjs';
 // Session 5/ Section 36
 //OF function
 
-import { of } from 'rxjs';
+// import { of } from 'rxjs';
 // Same as using our own of. BUT EASY.
 // of('Alice', 'Ben', 'Charlie').subscribe({
 //   next: value => console.log(value),
@@ -411,6 +411,7 @@ import { ajax, AjaxResponse } from 'rxjs/ajax';
 //Section 5 // Session 43/
 //combineLatest
 import { fromEvent, combineLatest } from 'rxjs';
+import { catchError, concatMap, debounceTime, tap } from 'rxjs/operators';
 
 // const temperatureInput = document.getElementById('temperature-input');
 // const conversionDropdown = document.getElementById('conversion-dropdown');
@@ -444,28 +445,121 @@ import { fromEvent, combineLatest } from 'rxjs';
 // Session 47
 //Filter Operator
 
-interface NewsItem {
-  category: 'Business' | 'Sports';
-  content: string;
-}
+// interface NewsItem {
+//   category: 'Business' | 'Sports';
+//   content: string;
+// }
 
-const newsFeed$ = new Observable<NewsItem>(subscriber => {
-  setTimeout(
-    () => subscriber.next({ category: 'Business', content: 'A' }),
-    1000
-  );
-  setTimeout(() => subscriber.next({ category: 'Sports', content: 'B' }), 3000);
-  setTimeout(
-    () => subscriber.next({ category: 'Business', content: 'C' }),
-    4000
-  );
-  setTimeout(() => subscriber.next({ category: 'Sports', content: 'D' }), 6000);
-  setTimeout(
-    () => subscriber.next({ category: 'Business', content: 'E' }),
-    7000
-  );
+// const newsFeed$ = new Observable<NewsItem>(subscriber => {
+//   setTimeout(
+//     () => subscriber.next({ category: 'Business', content: 'A' }),
+//     1000
+//   );
+//   setTimeout(() => subscriber.next({ category: 'Sports', content: 'B' }), 3000);
+//   setTimeout(
+//     () => subscriber.next({ category: 'Business', content: 'C' }),
+//     4000
+//   );
+//   setTimeout(() => subscriber.next({ category: 'Sports', content: 'D' }), 6000);
+//   setTimeout(
+//     () => subscriber.next({ category: 'Business', content: 'E' }),
+//     7000
+//   );
+// });
+
+// const sportsNewsFeed$ = newsFeed$.pipe(
+//   filter(item => item.category === 'Sports')
+// );
+
+// //can subscribe to sportsNewsFeed$ to go through the neews feed with only sports because filtered.
+// newsFeed$.subscribe(item => console.log(item));
+
+//Section 6 // Session 48
+//Map Operator
+
+// import { forkJoin } from 'rxjs';
+
+// // Mike is from New Delhi and likes to eat pasta.
+
+// const randomFirstName$ = ajax<any>(
+//   'https://random-data-api.com/api/name/random_name'
+// ).pipe(map(ajaxResponse => ajaxResponse.response.first_name));
+
+// const randomCapital$ = ajax<any>(
+//   'https://random-data-api.com/api/nation/random_nation'
+// ).pipe(map(ajaxResponse => ajaxResponse.response.capital));
+
+// const randomDish$ = ajax<any>(
+//   'https://random-data-api.com/api/food/random_food'
+// ).pipe(map(ajaxResponse => ajaxResponse.response.dish));
+
+// // randomName$.subscribe(value => console.log(value));
+// // randomNation$.subscribe(value => console.log(value));
+// // randomFood$.subscribe(value => console.log(value));
+
+// forkJoin([randomFirstName$, randomCapital$, randomDish$]).subscribe(
+//   ([firstName, capital, dish]) =>
+//     console.log(`${firstName} is from ${capital} and likes to eat ${dish}.`)
+// );
+
+//Section 6
+//Session 49
+//Tap Operator
+
+// of(1, 7, 3, 6, 2)
+//   .pipe(
+//     filter(value => value > 5),
+//     map(value => value * 2),
+//     tap(value => console.log('Spy: ', value))
+//   )
+//   .subscribe(value => console.log('Output: ', value));
+
+//Section 6
+//Session 50
+//DebounceTime Operator
+
+// const sliderInput = document.querySelector('input#slider');
+
+// fromEvent(sliderInput, 'input')
+//   .pipe(
+//     debounceTime(500),
+//     map(event => event.target['value'])
+//   )
+//   .subscribe(value => console.log(value));
+
+//Section 6
+//Session 51
+//catchError Operator
+
+// const failingHttpRequest$ = new Observable(subscriber => {
+//   setTimeout(() => {
+//     subscriber.error(new Error('Timeout: '));
+//   }, 3000);
+// });
+
+// console.log('App started');
+
+// //Without using EMPTY
+// // failingHttpRequest$
+// //   .pipe(catchError(error => of('Fallback value')))
+// //   .subscribe(value => console.log(value));
+
+// //Example using EMPTY
+// failingHttpRequest$.pipe(catchError(error => EMPTY)).subscribe({
+//   next: value => console.log(value),
+//   complete: () => console.log('Completed')
+// });
+
+//Section 6
+//Session 52
+//Flattening Operators - Static example
+
+const source$ = new Observable(subscriber => {
+  setTimeout(() => subscriber.next('A'), 2000);
+  setTimeout(() => subscriber.next('B'), 5000);
 });
 
-newsFeed$
-  .pipe(filter(item => item.category === 'Sports'))
-  .subscribe(item => console.log(item));
+console.log('App has started');
+source$.pipe(
+  concatMap(value => of(1, 2))
+).subscribe(value => console.log(value));
