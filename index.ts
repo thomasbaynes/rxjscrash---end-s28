@@ -411,7 +411,13 @@ import { ajax, AjaxResponse } from 'rxjs/ajax';
 //Section 5 // Session 43/
 //combineLatest
 import { fromEvent, combineLatest } from 'rxjs';
-import { catchError, concatMap, debounceTime, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  debounceTime,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 // const temperatureInput = document.getElementById('temperature-input');
 // const conversionDropdown = document.getElementById('conversion-dropdown');
@@ -651,18 +657,47 @@ import { catchError, concatMap, debounceTime, tap } from 'rxjs/operators';
 
 //SECTION 7
 //Session 67
+//Subject
 
-const emitButton = document.querySelector('button#emit');
-const inputElement: HTMLInputElement = document.querySelector('#value-input');
-const subscribeButton = document.querySelector('button#subscribe');
+// const emitButton = document.querySelector('button#emit');
+// const inputElement: HTMLInputElement = document.querySelector('#value-input');
+// const subscribeButton = document.querySelector('button#subscribe');
 
-const value$ = new Subject<string>();
+// const value$ = new Subject<string>();
 
-fromEvent(emitButton, 'click')
-  .pipe(map(() => inputElement.value))
-  .subscribe(value$);
+// fromEvent(emitButton, 'click')
+//   .pipe(map(() => inputElement.value))
+//   .subscribe(value$);
 
-fromEvent(subscribeButton, 'click').subscribe(() => {
-  console.log('New Subscription');
-  value$.subscribe((value) => console.log(value));
+// fromEvent(subscribeButton, 'click').subscribe(() => {
+//   console.log('New Subscription');
+//   value$.subscribe((value) => console.log(value));
+// });
+
+//Session 69
+//BehaviorSubject
+
+const loggedInSpan: HTMLElement = document.querySelector('span#logged-in');
+const loginButton: HTMLElement = document.querySelector('button#login');
+const logoutButton: HTMLElement = document.querySelector('button#logout');
+const printStateButton: HTMLElement =
+  document.querySelector('button#print-state');
+
+const isLoggedIn$ = new Subject<boolean>();
+fromEvent(loginButton, 'click').subscribe(() => isLoggedIn$.next(true));
+fromEvent(logoutButton, 'click').subscribe(() => isLoggedIn$.next(false));
+
+isLoggedIn$.subscribe(
+  (isLoggedIn) => (loggedInSpan.innerText = isLoggedIn.toString())
+);
+
+isLoggedIn$.subscribe((isLoggedIn) => {
+  logoutButton.style.display = isLoggedIn ? 'block' : 'none';
+  loginButton.style.display = !isLoggedIn ? 'block' : 'none';
 });
+
+fromEvent(printStateButton, 'click')
+  .pipe(withLatestFrom(isLoggedIn$))
+  .subscribe(([event, isLoggedIn]) =>
+    console.log('User is logged in:', isLoggedIn)
+  );
