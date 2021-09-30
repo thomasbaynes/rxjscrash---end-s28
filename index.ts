@@ -1,4 +1,4 @@
-import { map, filter, Observable, Subscriber, of, EMPTY } from 'rxjs';
+import { map, filter, Observable, Subscriber, of, EMPTY, Subject } from 'rxjs';
 
 // const observable$ = new Observable<string>(subscriber => {
 //   console.log('Observable Executed');
@@ -648,3 +648,21 @@ import { catchError, concatMap, debounceTime, tap } from 'rxjs/operators';
 //     error: err => console.log('Error: ', err),
 //     complete: () => console.log('Completed')
 //   });
+
+//SECTION 7
+//Session 67
+
+const emitButton = document.querySelector('button#emit');
+const inputElement: HTMLInputElement = document.querySelector('#value-input');
+const subscribeButton = document.querySelector('button#subscribe');
+
+const value$ = new Subject<string>();
+
+fromEvent(emitButton, 'click')
+  .pipe(map(() => inputElement.value))
+  .subscribe(value$);
+
+fromEvent(subscribeButton, 'click').subscribe(() => {
+  console.log('New Subscription');
+  value$.subscribe((value) => console.log(value));
+});
